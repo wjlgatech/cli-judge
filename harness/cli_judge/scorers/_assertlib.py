@@ -188,8 +188,31 @@ def token_reduction_at_least(result, a) -> tuple[bool, str]:
     if b == 0:
         return (False, "baseline output empty")
     reduction = (b - c) / b
-    want = a["fraction"]
+    want = a.get("fraction", a.get("value"))
     return (reduction >= want, f"reduction {reduction:.0%} vs claimed {want:.0%}")
+
+
+def _all_keys(obj) -> set:
+    keys = set()
+    if isinstance(obj, dict):
+        for k, v in obj.items():
+            keys.add(k)
+            keys |= _all_keys(v)
+    elif isinstance(obj, list):
+        for v in obj:
+            keys |= _all_keys(v)
+    return keys
+
+
+def required_fields_present(result, a) -> tuple[bool, str]:
+    """Every required field name must survive in the (compact) output — guards
+    against --compact dropping high-gravity fields to fake a token reduction."""
+    doc = _json_or_none(result.stdout)
+    if doc is None:
+        return (False, "stdout not JSON")
+    present = _all_keys(doc)
+    missing = [f for f in a["fields"] if f not in present]
+    return (not missing, "all required fields present" if not missing else f"missing fields: {missing}")
 
 
 # ---------------------------------------------------------------------------
@@ -320,6 +343,7 @@ DISPATCH = {
     "completes_within_ms": completes_within_ms,
     "tokens_within_budget": tokens_within_budget,
     "token_reduction_at_least": token_reduction_at_least,
+    "required_fields_present": required_fields_present,
     "upstream_request_query": upstream_request_query,
     "upstream_request_query_absent": upstream_request_query_absent,
     "upstream_request_query_multi": upstream_request_query_multi,

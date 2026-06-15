@@ -47,29 +47,85 @@ def validate_dir(target: str) -> list[str]:
     return errors
 
 
-def load_suite(name: str) -> list[Path]:
-    """Resolve a suite name to an ordered list of task file paths.
+SUITES_DIR = ROOT / "suites"
 
-    TODO (WB1): parse suites/<name>.yaml (or .json). For now, a suite maps to
-    a dimension-prefix filter so the harness is runnable without a YAML dep:
-      core -> d1.* and d2.* ; safety -> d4.* ; portability -> d3.* ;
-      efficiency -> d5.* ; full -> all.
-    """
-    prefix_map = {
-        "core": ("d1.", "d2."),
-        "safety": ("d4.",),
-        "portability": ("d3.",),
-        "efficiency": ("d5.",),
-        "full": ("d1.", "d2.", "d3.", "d4.", "d5."),
-    }
-    prefixes = prefix_map.get(name, ("d1.", "d2.", "d3.", "d4.", "d5."))
-    fixtures_root = ROOT / "fixtures"
-    tasks = sorted(fixtures_root.rglob("*.task.json"))
-    out = []
-    for t in tasks:
-        doc = _load_json(t)
-        if str(doc.get("id", "")).startswith(prefixes):
-            out.append(t)
+
+def parse_simple_yaml(text: str) -> dict[str, Any]:
+    """Parse the tiny YAML subset the suite files use — scalars, block lists
+    (``key:`` then indented ``- item``), and inline flow lists (``[a, b]``).
+    Dependency-free by design (plan KTD3); not a general YAML parser."""
+    doc: dict[str, Any] = {}
+    current_key: str | None = None
+    for raw in text.splitlines():
+        line = "" if raw.lstrip().startswith("#") else raw.split("#", 1)[0].rstrip()
+        if not line.strip():
+            continue
+        if line.lstrip().startswith("- ") and current_key is not None:
+            doc.setdefault(current_key, [])
+            doc[current_key].append(line.strip()[2:].strip())
+            continue
+        if ":" in line:
+            key, _, rest = line.partition(":")
+            key = key.strip()
+            rest = rest.strip()
+            if rest == "":
+                doc[key] = []
+                current_key = key
+            elif rest.startswith("[") and rest.endswith("]"):
+                doc[key] = [x.strip() for x in rest[1:-1].split(",") if x.strip()]
+                current_key = None
+            else:
+                doc[key] = rest.strip("'\"")
+                current_key = None
+    return doc
+
+
+def _suite_doc(name: str) -> dict[str, Any]:
+    path = SUITES_DIR / f"{name}.yaml"
+    if not path.exists():
+        raise SystemExit(f"unknown suite '{name}' (no {path.name} in suites/)")
+    return parse_simple_yaml(path.read_text(encoding="utf-8"))
+
+
+def _suite_task_ids(name: str, _seen: set[str] | None = None) -> list[str]:
+    """Ordered, de-duplicated task ids for a suite, resolving `include:`
+    composition recursively while preserving first-seen order."""
+    _seen = _seen if _seen is not None else set()
+    if name in _seen:
+        return []  # guard against an include cycle
+    _seen.add(name)
+    doc = _suite_doc(name)
+    ids: list[str] = []
+    if doc.get("include"):
+        for sub in doc["include"]:
+            ids.extend(_suite_task_ids(sub, _seen))
+    ids.extend(doc.get("tasks", []))
+    out: list[str] = []
+    seen_ids: set[str] = set()
+    for i in ids:
+        if i not in seen_ids:
+            seen_ids.add(i)
+            out.append(i)
+    return out
+
+
+def _task_id_index() -> dict[str, Path]:
+    index: dict[str, Path] = {}
+    for t in sorted((ROOT / "fixtures").rglob("*.task.json")):
+        index[_load_json(t).get("id", "")] = t
+    return index
+
+
+def load_suite(name: str) -> list[Path]:
+    """Resolve a suite name to the ordered list of task file paths it declares,
+    by parsing ``suites/<name>.yaml`` (with ``include:`` composition)."""
+    ids = _suite_task_ids(name)
+    index = _task_id_index()
+    out: list[Path] = []
+    for tid in ids:
+        if tid not in index:
+            raise SystemExit(f"suite '{name}' references unknown task id '{tid}'")
+        out.append(index[tid])
     return out
 
 
