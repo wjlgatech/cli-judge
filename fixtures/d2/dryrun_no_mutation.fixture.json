@@ -1,0 +1,25 @@
+{
+  "$schema": "../../schemas/fixture.schema.json",
+  "id": "dryrun_no_mutation",
+  "type": "http_replay",
+  "provenance": "cli-printing-press#2935",
+  "description": "`sync --dry-run` must perform no mutation (no POST/PUT/PATCH/DELETE) and return a plan; it had mutated sync_state on dependent resources.",
+  "synthetic": false,
+  "match": {
+    "method": "GET",
+    "path": "/v1/sync"
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "body": {
+      "dry_run": true,
+      "plan": [
+        "would update 3 issues"
+      ]
+    }
+  },
+  "notes": "A correct dry-run issues only read (GET) traffic and returns a plan."
+}

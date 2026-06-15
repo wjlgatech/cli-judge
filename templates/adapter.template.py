@@ -1,7 +1,7 @@
 """Template adapter. Copy to adapters/<tool>_adapter.py and implement invoke()."""
 from __future__ import annotations
 import subprocess, time, os
-from atb.adapter import Adapter, Call, Result
+from cli_judge.adapter import Adapter, Call, Result
 
 class MyAdapter:
     name = "my-tool"

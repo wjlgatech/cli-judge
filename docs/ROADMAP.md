@@ -6,10 +6,10 @@ Spec, rubric, schemas, runnable skeleton, seed fixtures, per-agent build briefs.
 ## v0.2 — Real adapters + full fixture coverage
 - WB6 adapters scoring a real `*-pp-cli` and a real `cli-anything-*`.
 - Expand every CATALOG row to a concrete fixture (WB8).
-- Publish first comparative scorecard (both factories through ATB).
+- Publish first comparative scorecard (both factories through CLI-Judge).
 
 ## v0.3 — The paper
-arXiv submission: introduce ATB, methodology, and the comparative results. The benchmark's distribution mechanism.
+arXiv submission: introduce CLI-Judge, methodology, and the comparative results. The benchmark's distribution mechanism.
 
 ## v0.4 — Verification layer (open core)
 - Replay verifier as a standalone library both factories can run in their own CI.

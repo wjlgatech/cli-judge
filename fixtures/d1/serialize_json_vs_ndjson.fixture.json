@@ -1,0 +1,29 @@
+{
+  "$schema": "../../schemas/fixture.schema.json",
+  "id": "serialize_json_vs_ndjson",
+  "type": "http_replay",
+  "provenance": "cli-printing-press#1254",
+  "description": "`workflow archive --json` must emit a single JSON document, not newline-delimited NDJSON, when the contract demands JSON.",
+  "synthetic": false,
+  "match": {
+    "method": "GET",
+    "path": "/v1/workflows/archive"
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "body": {
+      "items": [
+        {
+          "id": "w1"
+        },
+        {
+          "id": "w2"
+        }
+      ]
+    }
+  },
+  "notes": "NDJSON output fails to parse as a single JSON document; stdout_is_json catches it."
+}

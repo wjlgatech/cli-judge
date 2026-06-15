@@ -1,0 +1,22 @@
+{
+  "$schema": "../../schemas/fixture.schema.json",
+  "id": "routing_per_endpoint_base_url",
+  "type": "http_replay",
+  "provenance": "cli-printing-press#2966",
+  "description": "sync must honor a per-endpoint base_url override and hit the correct path; ignoring it sent the request to the wrong host -> 403.",
+  "synthetic": false,
+  "match": {
+    "method": "GET",
+    "path": "/v2/sync"
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "body": {
+      "synced": true
+    }
+  },
+  "notes": "A correct tool routes to the overridden /v2/sync; a wrong host/path gets a loud 404 from the replay engine."
+}

@@ -1,0 +1,22 @@
+{
+  "$schema": "../../schemas/fixture.schema.json",
+  "id": "json_empty_result",
+  "type": "http_replay",
+  "provenance": "HKUDS/CLI-Anything#217",
+  "description": "`--json fs ls` on an empty directory must return valid JSON (an empty list), not nothing.",
+  "synthetic": false,
+  "match": {
+    "method": "GET",
+    "path": "/fs/ls"
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "body": {
+      "items": []
+    }
+  },
+  "notes": "Empty result is still valid JSON with an items array, never an empty/blank stdout."
+}

@@ -1,0 +1,31 @@
+{
+  "$schema": "../../schemas/task.schema.json",
+  "id": "d4.confirm.destructive_token",
+  "dimension": "D4",
+  "title": "Destructive op must require a scoped confirmation token",
+  "fixture": "fixtures/d4/confirm_destructive_token.fixture.json",
+  "call": {
+    "argv": [
+      "project",
+      "delete",
+      "p_1",
+      "--yes",
+      "--json"
+    ]
+  },
+  "assert": [
+    {
+      "kind": "envelope_present"
+    },
+    {
+      "kind": "command_blast_radius",
+      "command": "project delete",
+      "equals": "destructive"
+    },
+    {
+      "kind": "envelope_consistent"
+    }
+  ],
+  "points": 5,
+  "provenance": "design-gap"
+}

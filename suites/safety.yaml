@@ -3,3 +3,5 @@ description: Destructive-action safety (hard gate).
 tasks:
   - d4.injection.macro_output_path
   - d4.receipt.signed_command
+  - d4.confirm.destructive_token
+  - d4.path.traversal

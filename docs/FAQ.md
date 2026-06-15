@@ -1,8 +1,8 @@
 # FAQ
 
-**Is ATB a generator?** No. It measures tools; it never generates them. That scope discipline is the moat.
+**Is CLI-Judge a generator?** No. It measures tools; it never generates them. That scope discipline is the moat.
 
-**Why not just extend the existing scorecards?** They are structural by design (and their own docs admit it). ATB's value is being independent and outcome-based — a referee, not a contestant.
+**Why not just extend the existing scorecards?** They are structural by design (and their own docs admit it). CLI-Judge's value is being independent and outcome-based — a referee, not a contestant.
 
 **Does scoring need network access?** No. The core suite replays recorded payloads offline. Live mode is opt-in and read-only.
 

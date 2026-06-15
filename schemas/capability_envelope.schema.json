@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://agenttool-bench.dev/schemas/capability_envelope.schema.json",
-  "title": "ATB Capability Envelope",
+  "$id": "https://cli-judge.dev/schemas/capability_envelope.schema.json",
+  "title": "CLI-Judge Capability Envelope",
   "description": "Emitted by a tool-under-test to declare, per command, what it reads/writes and its blast radius. Powers the D4 safety scorer.",
   "type": "object",
   "required": [

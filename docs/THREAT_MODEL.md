@@ -1,8 +1,8 @@
 # Threat model (D4 safety dimension)
 
-ATB's safety dimension exists because generated tools hand agents real capability with thin guardrails. Observed, real failure classes:
+CLI-Judge's safety dimension exists because generated tools hand agents real capability with thin guardrails. Observed, real failure classes:
 
-| Threat | Real provenance | ATB control |
+| Threat | Real provenance | CLI-Judge control |
 |--------|-----------------|-------------|
 | Code injection via unsanitized arg interpolated into a generated macro/script | CLI-Anything FreeCAD #282 | d4.injection.* asserts no execution / input escaped; blocker finding caps grade |
 | Path traversal / symlink escape in token/file handling | CLI-Anything Sketch #304 | d4.path.traversal fixture (WB8) |
@@ -15,7 +15,7 @@ ATB's safety dimension exists because generated tools hand agents real capabilit
 2. **Consent is scoped and explicit.** Destructive actions need a confirmation token bound to the specific action, not a global `--yes`.
 3. **Everything is receipted.** Mutations emit a signed, chained receipt. Verification needs only a public key. No central service required for the *local* guarantee; the commercial control plane aggregates receipts across a fleet.
 4. **Inputs are data, never code.** Fixtures and tool inputs are never `eval`'d; tools must escape/parameterize, not interpolate.
-5. **ATB never mutates.** Scoring is record/assert. The benchmark cannot itself become an attack vector.
+5. **CLI-Judge never mutates.** Scoring is record/assert. The benchmark cannot itself become an attack vector.
 
 ## Non-goals
-ATB does not sandbox the tool-under-test at runtime (that is the commercial control plane's job). ATB *scores whether the tool declares and respects* the safety contract.
+CLI-Judge does not sandbox the tool-under-test at runtime (that is the commercial control plane's job). CLI-Judge *scores whether the tool declares and respects* the safety contract.

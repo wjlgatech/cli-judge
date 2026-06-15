@@ -1,0 +1,25 @@
+{
+  "$schema": "../../schemas/task.schema.json",
+  "id": "d1.routing.per_endpoint_base_url",
+  "dimension": "D1",
+  "title": "Per-endpoint base_url override must be honored",
+  "fixture": "fixtures/d1/routing_per_endpoint_base_url.fixture.json",
+  "call": {
+    "argv": [
+      "sync",
+      "run",
+      "--json"
+    ]
+  },
+  "assert": [
+    {
+      "kind": "upstream_request_path",
+      "equals": "/v2/sync"
+    },
+    {
+      "kind": "stdout_is_json"
+    }
+  ],
+  "points": 4,
+  "provenance": "cli-printing-press#2966"
+}

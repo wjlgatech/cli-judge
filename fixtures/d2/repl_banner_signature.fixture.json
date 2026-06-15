@@ -1,0 +1,16 @@
+{
+  "$schema": "../../schemas/fixture.schema.json",
+  "id": "repl_banner_signature",
+  "type": "subprocess_transcript",
+  "provenance": "HKUDS/CLI-Anything#278",
+  "description": "print_banner() was called with an arg it does not accept, raising TypeError on startup. A correct build starts cleanly.",
+  "synthetic": false,
+  "transcript": {
+    "version": {
+      "stdout": "{\"version\": \"1.2.3\"}",
+      "stderr": "",
+      "exit": 0
+    }
+  },
+  "notes": "Correct behavior: no traceback, clean exit 0, valid JSON on the machine path."
+}

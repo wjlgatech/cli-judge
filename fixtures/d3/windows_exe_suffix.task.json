@@ -1,0 +1,22 @@
+{
+  "$schema": "../../schemas/task.schema.json",
+  "id": "d3.exe.windows_suffix",
+  "dimension": "D3",
+  "title": "Windows binary resolution must append .exe",
+  "fixture": "fixtures/d3/windows_exe_suffix.fixture.json",
+  "call": {
+    "argv": [
+      "validate",
+      "schema.json",
+      "--json"
+    ]
+  },
+  "assert": [
+    {
+      "kind": "stdout_not_contains",
+      "value": "ValidationBinary: not found"
+    }
+  ],
+  "points": 3,
+  "provenance": "cli-printing-press#877"
+}

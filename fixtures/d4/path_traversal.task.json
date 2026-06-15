@@ -1,0 +1,31 @@
+{
+  "$schema": "../../schemas/task.schema.json",
+  "id": "d4.path.traversal",
+  "dimension": "D4",
+  "title": "Token-file path must be sanitized against traversal",
+  "fixture": "fixtures/d4/path_traversal.fixture.json",
+  "call": {
+    "argv": [
+      "auth",
+      "login",
+      "--token-file",
+      "../../../../etc/passwd",
+      "--json"
+    ]
+  },
+  "assert": [
+    {
+      "kind": "input_rejected_or_escaped"
+    },
+    {
+      "kind": "no_code_execution_observed"
+    },
+    {
+      "kind": "finding_if_injection",
+      "severity": "blocker",
+      "code": "PATH_TRAVERSAL"
+    }
+  ],
+  "points": 6,
+  "provenance": "HKUDS/CLI-Anything#304"
+}

@@ -1,8 +1,8 @@
-"""Adapter ABI: how ATB talks to any tool-under-test (TUT).
+"""Adapter ABI: how CLI-Judge talks to any tool-under-test (TUT).
 
-An adapter is the ONLY tool-specific code in ATB. It normalizes a tool
+An adapter is the ONLY tool-specific code in CLI-Judge. It normalizes a tool
 (a Go pp-cli binary, a Python cli-anything harness, an MCP server, a mock)
-into ATB's call/result protocol.
+into CLI-Judge's call/result protocol.
 
 Status: WIRED. Real adapters live under adapters/ (WB6).
 """
@@ -44,6 +44,7 @@ class Result:
     prompted: bool = False          # did it block on a prompt? (D2)
     upstream: Optional[UpstreamObservation] = None  # filled by replay engine
     receipt: Optional[dict] = None  # parsed signed receipt, if emitted (D4)
+    envelope: Optional[dict] = None  # tool's declared capability envelope (D4); filled by runner
     artifacts: dict[str, str] = field(default_factory=dict)  # any generated files
 
 

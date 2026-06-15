@@ -1,4 +1,4 @@
-"""ATB command-line entrypoint. Status: WIRED."""
+"""CLI-Judge command-line entrypoint. Status: WIRED."""
 from __future__ import annotations
 import argparse
 import json
@@ -11,7 +11,7 @@ from .runner import run_suite
 
 def main(argv=None) -> int:
     argv = argv if argv is not None else sys.argv[1:]
-    p = argparse.ArgumentParser(prog="atb", description="AgentTool-Bench: reality-grounded tool benchmark")
+    p = argparse.ArgumentParser(prog="cli-judge", description="CLI-Judge: reality-grounded tool benchmark")
     sub = p.add_subparsers(dest="cmd", required=True)
 
     pv = sub.add_parser("validate", help="validate tasks/fixtures against schemas")

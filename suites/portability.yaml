@@ -1,0 +1,7 @@
+# Portability suite: cross-platform survival (D3).
+name: portability
+description: Path/OS/locale/encoding survival and loud failure when a backend is absent.
+tasks:
+  - d3.path.windows_escape
+  - d3.binary.macos_libpath
+  - d3.exe.windows_suffix
