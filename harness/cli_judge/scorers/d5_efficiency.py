@@ -1,21 +1,16 @@
-"""D5 — Correctness-against-reality scorer.
+"""D5 — Token & latency efficiency scorer.
 
-All-or-nothing per task by default: award task['points'] if every assert passes.
-TODO (WB4): support partial credit per RUBRIC where a task has weighted sub-checks.
+Asserts output payload (proxy-tokenized) stays within the archetype budget,
+that --compact reduces tokens by the claimed margin without dropping required
+fields, and that p50 local-path latency is within budget. All-or-nothing.
+
+Note: latency assertions are wall-clock and non-deterministic; the runner
+isolates measured latency from the golden snapshot (plan KTD7).
 """
 from __future__ import annotations
-from . import register, ScoreResult, Finding
-from ._assertlib import run_assert
+from . import register, score_all_or_nothing
 
 
 @register("D5")
-def score(task, fixture, result) -> ScoreResult:
-    max_p = float(task["points"])
-    findings = []
-    ok_all = True
-    for a in task["assert"]:
-        ok, ev = run_assert(result, a)
-        if not ok:
-            ok_all = False
-            findings.append(Finding("friction", "D5_ASSERT", f"{a['kind']} failed", ev))
-    return ScoreResult(points=max_p if ok_all else 0.0, max_points=max_p, findings=findings)
+def score(task, fixture, result):
+    return score_all_or_nothing(task, result, "D5")
