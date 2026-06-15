@@ -1,0 +1,58 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://agenttool-bench.dev/schemas/receipt.schema.json",
+  "title": "ATB Signed Receipt",
+  "description": "Append-only, Ed25519-signed record of an executed (especially mutating) command. No blockchain: a hash-chained local log.",
+  "type": "object",
+  "required": [
+    "tool",
+    "command",
+    "args_digest",
+    "blast_radius",
+    "timestamp",
+    "actor",
+    "prev_hash",
+    "signature",
+    "pubkey"
+  ],
+  "properties": {
+    "tool": {
+      "type": "string"
+    },
+    "command": {
+      "type": "string"
+    },
+    "args_digest": {
+      "type": "string",
+      "description": "sha256 of canonical args"
+    },
+    "blast_radius": {
+      "enum": [
+        "read-only",
+        "reversible",
+        "destructive"
+      ]
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "actor": {
+      "type": "string",
+      "description": "agent/identity that invoked the command"
+    },
+    "prev_hash": {
+      "type": "string",
+      "description": "sha256 of the previous receipt's canonical form; chains the log"
+    },
+    "signature": {
+      "type": "string",
+      "description": "Ed25519 signature (base64) over canonical JSON of all non-signature fields"
+    },
+    "pubkey": {
+      "type": "string",
+      "description": "Ed25519 public key (base64) for verification"
+    }
+  },
+  "additionalProperties": false
+}

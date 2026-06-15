@@ -1,0 +1,45 @@
+{
+  "$schema": "../../schemas/task.schema.json",
+  "id": "d1.pagination.offset_param_fidelity",
+  "dimension": "D1",
+  "title": "Offset paginator must use spec param names (skip/limit), not cursor names",
+  "fixture": "fixtures/d1/pagination_offset.fixture.json",
+  "call": {
+    "argv": [
+      "issues",
+      "list",
+      "--limit",
+      "50",
+      "--page",
+      "2",
+      "--json"
+    ]
+  },
+  "assert": [
+    {
+      "kind": "upstream_request_query",
+      "param": "skip",
+      "equals": "50"
+    },
+    {
+      "kind": "upstream_request_query",
+      "param": "limit",
+      "equals": "50"
+    },
+    {
+      "kind": "upstream_request_query_absent",
+      "param": "after"
+    },
+    {
+      "kind": "stdout_is_json"
+    },
+    {
+      "kind": "stdout_json_path",
+      "path": "items",
+      "op": "array_len_gt",
+      "value": 0
+    }
+  ],
+  "points": 7,
+  "provenance": "cli-printing-press#2961"
+}

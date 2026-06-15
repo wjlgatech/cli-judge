@@ -1,0 +1,63 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://agenttool-bench.dev/schemas/capability_envelope.schema.json",
+  "title": "ATB Capability Envelope",
+  "description": "Emitted by a tool-under-test to declare, per command, what it reads/writes and its blast radius. Powers the D4 safety scorer.",
+  "type": "object",
+  "required": [
+    "tool",
+    "version",
+    "commands"
+  ],
+  "properties": {
+    "tool": {
+      "type": "string"
+    },
+    "version": {
+      "type": "string"
+    },
+    "commands": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "name",
+          "blast_radius"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "blast_radius": {
+            "enum": [
+              "read-only",
+              "reversible",
+              "destructive"
+            ]
+          },
+          "reads": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "writes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "requires_confirmation": {
+            "type": "boolean"
+          },
+          "reversible_by": {
+            "type": "string",
+            "description": "command or mechanism that reverses this action, if reversible"
+          }
+        },
+        "additionalProperties": true
+      }
+    }
+  },
+  "additionalProperties": true
+}

@@ -1,0 +1,26 @@
+{
+  "$schema": "../../schemas/fixture.schema.json",
+  "id": "jwt_length_floor",
+  "type": "http_replay",
+  "provenance": "cli-printing-press#1598",
+  "description": "A short opaque API token ('abc.def.ghi' shape but tiny) must NOT be classified as a JWT and must be sent as-is in the configured auth header.",
+  "synthetic": false,
+  "match": {
+    "method": "GET",
+    "path": "/me"
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "body": {
+      "id": "u_1",
+      "name": "Real User"
+    }
+  },
+  "inputs": {
+    "token": "a.b.c"
+  },
+  "notes": "looksLikeJWT must require a realistic length/base64url-segment floor before treating a token as a JWT."
+}

@@ -1,0 +1,20 @@
+{
+  "$schema": "../schemas/fixture.schema.json",
+  "id": "<name>",
+  "type": "http_replay",
+  "provenance": "<repo>#<issue>",
+  "description": "What real failure this is distilled from and what correct behavior looks like.",
+  "synthetic": false,
+  "match": {
+    "method": "GET",
+    "path": "/v1/<resource>"
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "body": {}
+  },
+  "notes": ""
+}

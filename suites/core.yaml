@@ -1,0 +1,10 @@
+# Core suite: everyday quality bar (D1 correctness + D2 non-interactive).
+# NOTE: the skeleton loader maps suite name -> dimension prefixes and does not
+# yet parse this file. WB1: make load_suite() read these ordered task ids.
+name: core
+description: Correctness-against-reality and non-interactive robustness.
+tasks:
+  - d1.pagination.offset_param_fidelity
+  - d1.auth.jwt_no_length_floor
+  - d1.compact.no_raw_map_leak
+  - d2.noninteractive.mode

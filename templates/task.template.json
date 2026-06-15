@@ -1,0 +1,25 @@
+{
+  "$schema": "../schemas/task.schema.json",
+  "id": "dX.family.short_name",
+  "dimension": "D1",
+  "title": "One-line description of what correct behavior is",
+  "fixture": "fixtures/dX/<name>.fixture.json",
+  "call": {
+    "argv": [
+      "<subcommand>",
+      "<args>",
+      "--json"
+    ],
+    "env": {},
+    "no_tty": true,
+    "stdin": ""
+  },
+  "assert": [
+    {
+      "kind": "stdout_is_json"
+    }
+  ],
+  "points": 5,
+  "provenance": "<repo>#<issue> or 'synthetic'",
+  "synthetic": false
+}

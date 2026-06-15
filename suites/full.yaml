@@ -1,0 +1,3 @@
+name: full
+description: All five dimensions.
+include: [core, safety, portability, efficiency]

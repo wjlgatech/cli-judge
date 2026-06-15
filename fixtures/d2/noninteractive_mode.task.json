@@ -1,0 +1,36 @@
+{
+  "$schema": "../../schemas/task.schema.json",
+  "id": "d2.noninteractive.mode",
+  "dimension": "D2",
+  "title": "Non-interactive subcommand must run one-shot without prompting",
+  "fixture": "fixtures/d2/noninteractive_mode.fixture.json",
+  "call": {
+    "argv": [
+      "project",
+      "new",
+      "--name",
+      "Demo",
+      "--json"
+    ],
+    "no_tty": true,
+    "stdin": ""
+  },
+  "assert": [
+    {
+      "kind": "completes_within_ms",
+      "value": 5000
+    },
+    {
+      "kind": "never_prompted"
+    },
+    {
+      "kind": "exit_code",
+      "equals": 0
+    },
+    {
+      "kind": "stdout_is_json"
+    }
+  ],
+  "points": 5,
+  "provenance": "HKUDS/CLI-Anything#214"
+}

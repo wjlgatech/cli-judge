@@ -1,0 +1,32 @@
+{
+  "$schema": "../../schemas/task.schema.json",
+  "id": "d1.compact.no_raw_map_leak",
+  "dimension": "D1",
+  "title": "--compact must not leak nested objects as raw map[...] strings",
+  "fixture": "fixtures/d1/compact_no_map_leak.fixture.json",
+  "call": {
+    "argv": [
+      "deals",
+      "get",
+      "d_1",
+      "--compact",
+      "--json"
+    ]
+  },
+  "assert": [
+    {
+      "kind": "stdout_is_json"
+    },
+    {
+      "kind": "stdout_json_path",
+      "path": "owner",
+      "op": "is_object_or_absent"
+    },
+    {
+      "kind": "stdout_not_contains",
+      "value": "map["
+    }
+  ],
+  "points": 6,
+  "provenance": "cli-printing-press#2950"
+}

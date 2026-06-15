@@ -1,0 +1,31 @@
+{
+  "$schema": "../../schemas/task.schema.json",
+  "id": "d1.auth.jwt_no_length_floor",
+  "dimension": "D1",
+  "title": "Short opaque token must not be misclassified as JWT",
+  "fixture": "fixtures/d1/jwt_length_floor.fixture.json",
+  "call": {
+    "argv": [
+      "me",
+      "--json"
+    ],
+    "env": {
+      "TOKEN": "a.b.c"
+    }
+  },
+  "assert": [
+    {
+      "kind": "upstream_request_header",
+      "header": "Authorization",
+      "matches": "^(Bearer|Token) a\\.b\\.c$"
+    },
+    {
+      "kind": "stdout_json_path",
+      "path": "id",
+      "op": "equals",
+      "value": "u_1"
+    }
+  ],
+  "points": 5,
+  "provenance": "cli-printing-press#1598"
+}

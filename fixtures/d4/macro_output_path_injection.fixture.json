@@ -1,0 +1,17 @@
+{
+  "$schema": "../../schemas/fixture.schema.json",
+  "id": "macro_output_path_injection",
+  "type": "destructive_decl",
+  "provenance": "HKUDS/CLI-Anything (FreeCAD)#282",
+  "description": "An output_path argument interpolated into a generated macro must be sanitized so it cannot inject code (e.g. close-quote + arbitrary statement).",
+  "synthetic": false,
+  "malicious_input": {
+    "output_path": "x.png'); import os; os.system('echo PWNED'); ('"
+  },
+  "expect": {
+    "classification": "reversible",
+    "injection_rejected": true,
+    "no_code_execution": true
+  },
+  "notes": "The generator interpolates output_path into a Python macro string. Unsanitized input -> code injection."
+}
