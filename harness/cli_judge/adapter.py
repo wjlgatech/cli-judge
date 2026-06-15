@@ -44,6 +44,7 @@ class Result:
     prompted: bool = False          # did it block on a prompt? (D2)
     upstream: Optional[UpstreamObservation] = None  # filled by replay engine
     receipt: Optional[dict] = None  # parsed signed receipt, if emitted (D4)
+    envelope: Optional[dict] = None  # tool's declared capability envelope (D4); filled by runner
     artifacts: dict[str, str] = field(default_factory=dict)  # any generated files
 
 
