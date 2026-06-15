@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://agenttool-bench.dev/schemas/receipt.schema.json",
-  "title": "ATB Signed Receipt",
+  "$id": "https://cli-judge.dev/schemas/receipt.schema.json",
+  "title": "CLI-Judge Signed Receipt",
   "description": "Append-only, Ed25519-signed record of an executed (especially mutating) command. No blockchain: a hash-chained local log.",
   "type": "object",
   "required": [

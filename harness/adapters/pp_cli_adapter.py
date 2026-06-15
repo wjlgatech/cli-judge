@@ -12,9 +12,9 @@ from __future__ import annotations
 import os
 import subprocess
 import time
-from atb.adapter import Adapter, Call, Result
+from cli_judge.adapter import Adapter, Call, Result
 
-BINARY = os.environ.get("ATB_PP_BINARY", "")  # e.g. /path/to/linear-pp-cli
+BINARY = os.environ.get("CLI_JUDGE_PP_BINARY", "")  # e.g. /path/to/linear-pp-cli
 
 
 class PpCliAdapter:
@@ -22,7 +22,7 @@ class PpCliAdapter:
 
     def invoke(self, call: Call) -> Result:
         if not BINARY:
-            return Result(exit_code=127, stdout="", stderr="ATB_PP_BINARY not set; skipping", duration_ms=0.0)
+            return Result(exit_code=127, stdout="", stderr="CLI_JUDGE_PP_BINARY not set; skipping", duration_ms=0.0)
         env = dict(os.environ)
         env.update(call.env)
         if call.replay_base_url:

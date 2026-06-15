@@ -12,9 +12,9 @@ from __future__ import annotations
 import os
 import subprocess
 import time
-from atb.adapter import Adapter, Call, Result
+from cli_judge.adapter import Adapter, Call, Result
 
-COMMAND = os.environ.get("ATB_CA_COMMAND", "")  # e.g. cli-anything-blender
+COMMAND = os.environ.get("CLI_JUDGE_CA_COMMAND", "")  # e.g. cli-anything-blender
 
 
 class CliAnythingAdapter:
@@ -22,7 +22,7 @@ class CliAnythingAdapter:
 
     def invoke(self, call: Call) -> Result:
         if not COMMAND:
-            return Result(exit_code=127, stdout="", stderr="ATB_CA_COMMAND not set; skipping", duration_ms=0.0)
+            return Result(exit_code=127, stdout="", stderr="CLI_JUDGE_CA_COMMAND not set; skipping", duration_ms=0.0)
         env = dict(os.environ); env.update(call.env)
         t0 = time.time()
         proc = subprocess.run([COMMAND, *call.argv], input=call.stdin,

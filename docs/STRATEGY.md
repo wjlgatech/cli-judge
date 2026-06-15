@@ -8,12 +8,12 @@ Competing as a third factory means out-engineering two mature, fast-moving proje
 ## Why a benchmark is the highest-ROI first move
 - **Cheap relative to leverage.** You build a measuring stick, not a better generator.
 - **Category-defining.** Whoever defines the metric shapes the field's incentives (cf. ImageNet, SWE-bench, MMLU).
-- **Evidence-backed.** Both factories' own scorecards are *structural*; their issue trackers prove real-world correctness leaks (pagination params, JWT misclassification, macOS crashes, broken non-interactive modes). ATB measures exactly those gaps.
+- **Evidence-backed.** Both factories' own scorecards are *structural*; their issue trackers prove real-world correctness leaks (pagination params, JWT misclassification, macOS crashes, broken non-interactive modes). CLI-Judge measures exactly those gaps.
 - **Lowest-capital thesis test.** If the field ignores the benchmark, you spent weeks, not years, and learned the trust-layer thesis is premature.
 
 ## Sequencing (highest ROI -> lower)
-1. **Benchmark + paper (bundle them).** The paper is the benchmark's distribution. One arXiv artifact: introduce ATB, run both factories through it, publish the gap.
-2. **Open-source the harness (this repo).** Make it trivial for both factories to score themselves. When they cite ATB scores, you are the referee.
+1. **Benchmark + paper (bundle them).** The paper is the benchmark's distribution. One arXiv artifact: introduce CLI-Judge, run both factories through it, publish the gap.
+2. **Open-source the harness (this repo).** Make it trivial for both factories to score themselves. When they cite CLI-Judge scores, you are the referee.
 3. **Open-core runtime/verification layer.** The replay verifier + capability envelope + signed receipts. Individually useful, organizationally necessary.
 4. **Commercial control plane (last).** Hosted audit of receipts, fleet policy enforcement, telemetry-driven regeneration signal, sandboxed/remote execution. The operationally-heavy part nobody open-sources.
 

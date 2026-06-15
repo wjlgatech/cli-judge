@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://agenttool-bench.dev/schemas/task.schema.json",
-  "title": "ATB Task",
+  "$id": "https://cli-judge.dev/schemas/task.schema.json",
+  "title": "CLI-Judge Task",
   "type": "object",
   "required": [
     "id",

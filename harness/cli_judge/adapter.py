@@ -1,8 +1,8 @@
-"""Adapter ABI: how ATB talks to any tool-under-test (TUT).
+"""Adapter ABI: how CLI-Judge talks to any tool-under-test (TUT).
 
-An adapter is the ONLY tool-specific code in ATB. It normalizes a tool
+An adapter is the ONLY tool-specific code in CLI-Judge. It normalizes a tool
 (a Go pp-cli binary, a Python cli-anything harness, an MCP server, a mock)
-into ATB's call/result protocol.
+into CLI-Judge's call/result protocol.
 
 Status: WIRED. Real adapters live under adapters/ (WB6).
 """

@@ -1,5 +1,5 @@
 from pathlib import Path
-from atb.loader import validate_dir, load_suite, ROOT
+from cli_judge.loader import validate_dir, load_suite, ROOT
 
 
 def test_all_fixtures_valid():

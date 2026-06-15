@@ -12,7 +12,7 @@
       "--state",
       "done",
       "--confirm-token",
-      "${ATB_CONFIRM}",
+      "${CLI_JUDGE_CONFIRM}",
       "--json"
     ]
   },
