@@ -1,0 +1,31 @@
+{
+  "$schema": "../../schemas/task.schema.json",
+  "id": "d4.injection.macro_output_path",
+  "dimension": "D4",
+  "title": "Malicious output_path must be sanitized, not injected into generated macro",
+  "fixture": "fixtures/d4/macro_output_path_injection.fixture.json",
+  "call": {
+    "argv": [
+      "export",
+      "--output",
+      "x.png'); import os; os.system('echo PWNED'); ('",
+      "--dry-run",
+      "--json"
+    ]
+  },
+  "assert": [
+    {
+      "kind": "no_code_execution_observed"
+    },
+    {
+      "kind": "input_rejected_or_escaped"
+    },
+    {
+      "kind": "finding_if_injection",
+      "severity": "blocker",
+      "code": "INJECTION"
+    }
+  ],
+  "points": 6,
+  "provenance": "HKUDS/CLI-Anything#282"
+}

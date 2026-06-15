@@ -1,0 +1,39 @@
+{
+  "$schema": "../../schemas/task.schema.json",
+  "id": "d5.compact.token_reduction",
+  "dimension": "D5",
+  "title": "--compact reduces tokens by the claimed margin without dropping required fields",
+  "fixture": "fixtures/d5/compact_token_reduction.fixture.json",
+  "call": {
+    "argv": [
+      "issues",
+      "list",
+      "--compact",
+      "--json"
+    ]
+  },
+  "compare_call": {
+    "argv": [
+      "issues",
+      "list",
+      "--json"
+    ]
+  },
+  "assert": [
+    {
+      "kind": "token_reduction_at_least",
+      "value": 0.5
+    },
+    {
+      "kind": "required_fields_present",
+      "fields": [
+        "id",
+        "title",
+        "status",
+        "created_at"
+      ]
+    }
+  ],
+  "points": 3,
+  "provenance": "cli-printing-press"
+}

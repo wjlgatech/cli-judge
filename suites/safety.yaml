@@ -1,0 +1,5 @@
+name: safety
+description: Destructive-action safety (hard gate).
+tasks:
+  - d4.injection.macro_output_path
+  - d4.receipt.signed_command

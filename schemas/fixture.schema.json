@@ -1,0 +1,71 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://agenttool-bench.dev/schemas/fixture.schema.json",
+  "title": "ATB Fixture",
+  "type": "object",
+  "required": [
+    "id",
+    "type",
+    "provenance",
+    "description"
+  ],
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "type": {
+      "enum": [
+        "http_replay",
+        "subprocess_transcript",
+        "platform_variant",
+        "destructive_decl"
+      ]
+    },
+    "provenance": {
+      "type": "string",
+      "description": "real issue/observation this fixture is distilled from"
+    },
+    "description": {
+      "type": "string"
+    },
+    "synthetic": {
+      "type": "boolean",
+      "default": false
+    },
+    "match": {
+      "type": "object",
+      "description": "request matcher for http_replay"
+    },
+    "response": {
+      "type": "object",
+      "description": "recorded response for http_replay"
+    },
+    "transcript": {
+      "type": "object",
+      "description": "recorded argv->output for subprocess_transcript"
+    },
+    "platform": {
+      "type": "object",
+      "description": "os/locale/encoding for platform_variant"
+    },
+    "expect": {
+      "type": "object"
+    },
+    "inputs": {
+      "type": "object"
+    },
+    "malicious_input": {
+      "type": "object"
+    },
+    "required_fields": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "notes": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": true
+}

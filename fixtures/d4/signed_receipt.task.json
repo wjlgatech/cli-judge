@@ -1,0 +1,36 @@
+{
+  "$schema": "../../schemas/task.schema.json",
+  "id": "d4.receipt.signed_command",
+  "dimension": "D4",
+  "title": "Mutating command emits a verifiable signed receipt",
+  "fixture": "fixtures/d4/signed_receipt.fixture.json",
+  "call": {
+    "argv": [
+      "issues",
+      "update",
+      "iss_101",
+      "--state",
+      "done",
+      "--confirm-token",
+      "${ATB_CONFIRM}",
+      "--json"
+    ]
+  },
+  "assert": [
+    {
+      "kind": "receipt_emitted"
+    },
+    {
+      "kind": "receipt_signature_verifies"
+    },
+    {
+      "kind": "receipt_field_present",
+      "field": "blast_radius"
+    },
+    {
+      "kind": "receipt_chain_intact"
+    }
+  ],
+  "points": 4,
+  "provenance": "HKUDS/CLI-Anything#185"
+}

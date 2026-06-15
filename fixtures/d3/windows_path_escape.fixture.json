@@ -1,0 +1,18 @@
+{
+  "$schema": "../../schemas/fixture.schema.json",
+  "id": "windows_path_escape",
+  "type": "platform_variant",
+  "provenance": "HKUDS/CLI-Anything (Blender harness)#343",
+  "description": "On Windows, an output path containing backslashes and spaces must not be mangled by the render-script generator.",
+  "synthetic": false,
+  "platform": {
+    "os": "windows",
+    "path_sep": "\\\\",
+    "sample_path": "C:\\\\Users\\\\Pat Lee\\\\out\\\\frame 01.png"
+  },
+  "expect": {
+    "written_path": "C:\\\\Users\\\\Pat Lee\\\\out\\\\frame 01.png",
+    "no_unescaped_backslash_injection": true
+  },
+  "notes": "Generated scripts often interpolate paths into Python/shell strings; backslashes + spaces break naive interpolation."
+}

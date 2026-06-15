@@ -1,0 +1,23 @@
+{
+  "$schema": "../../schemas/fixture.schema.json",
+  "id": "noninteractive_mode",
+  "type": "subprocess_transcript",
+  "provenance": "HKUDS/CLI-Anything#214",
+  "description": "Tool invoked non-interactively (no TTY, piped) must complete the one-shot command without dropping into a REPL or blocking on a prompt.",
+  "synthetic": false,
+  "transcript": {
+    "argv": [
+      "project",
+      "new",
+      "--name",
+      "Demo",
+      "--json"
+    ],
+    "stdin": "",
+    "expect": {
+      "exit": 0,
+      "stdout_is_json": true
+    }
+  },
+  "notes": "A bare invocation may enter a REPL; but a subcommand invocation with no TTY must run one-shot."
+}

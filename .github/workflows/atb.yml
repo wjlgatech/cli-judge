@@ -1,0 +1,20 @@
+name: atb
+on: [push, pull_request]
+jobs:
+  validate-and-selftest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+      - name: Install
+        run: |
+          cd harness
+          python -m pip install --upgrade pip
+          pip install -e .[dev]
+      - name: Validate fixtures
+        run: cd harness && atb validate ../fixtures
+      - name: Self-test (echo adapter, core suite)
+        run: cd harness && atb selftest
+      - name: Unit tests
+        run: cd harness && pytest -q

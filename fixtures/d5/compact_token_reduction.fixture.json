@@ -1,0 +1,40 @@
+{
+  "$schema": "../../schemas/fixture.schema.json",
+  "id": "compact_token_reduction",
+  "type": "http_replay",
+  "provenance": "cli-printing-press (claimed 60-80%)",
+  "description": "Verify --compact actually reduces output token count vs full --json against a real payload, without dropping required high-gravity fields.",
+  "synthetic": false,
+  "match": {
+    "method": "GET",
+    "path": "/v1/issues"
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "body": {
+      "items": [
+        {
+          "id": "i1",
+          "title": "T1",
+          "status": "open",
+          "created_at": "2025-01-01T00:00:00Z",
+          "description": "long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long long ",
+          "assignee": {
+            "id": "a1",
+            "name": "X"
+          }
+        }
+      ]
+    }
+  },
+  "required_fields": [
+    "id",
+    "title",
+    "status",
+    "created_at"
+  ],
+  "notes": "Claimed reduction is 60-80%. Award only if measured reduction >= claimed and required fields retained."
+}

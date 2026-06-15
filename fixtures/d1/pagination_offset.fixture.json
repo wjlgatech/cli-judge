@@ -1,0 +1,32 @@
+{
+  "$schema": "../../schemas/fixture.schema.json",
+  "id": "pagination_offset",
+  "type": "http_replay",
+  "provenance": "cli-printing-press#2961",
+  "description": "Offset-based paginator. Page 2 of limit 50 must request skip=50&limit=50, NOT after=<cursor>.",
+  "synthetic": false,
+  "match": {
+    "method": "GET",
+    "path": "/v1/issues"
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "body": {
+      "items": [
+        {
+          "id": "iss_101",
+          "title": "A"
+        },
+        {
+          "id": "iss_102",
+          "title": "B"
+        }
+      ],
+      "total": 412
+    }
+  },
+  "notes": "The spec declares query params skip(integer) and limit(integer). A correct tool maps --page 2 --limit 50 to skip=50&limit=50."
+}

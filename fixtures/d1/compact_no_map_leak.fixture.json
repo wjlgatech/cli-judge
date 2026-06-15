@@ -1,0 +1,31 @@
+{
+  "$schema": "../../schemas/fixture.schema.json",
+  "id": "compact_no_map_leak",
+  "type": "http_replay",
+  "provenance": "cli-printing-press#2950",
+  "description": "In --compact mode, a nested object field must serialize as JSON, never as a Go 'map[...]' string.",
+  "synthetic": false,
+  "match": {
+    "method": "GET",
+    "path": "/v1/deals/d_1"
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "body": {
+      "id": "d_1",
+      "amount": 1000,
+      "owner": {
+        "id": "o_9",
+        "name": "Pat"
+      },
+      "tags": [
+        "vip",
+        "q1"
+      ]
+    }
+  },
+  "notes": "High-gravity fields kept in --compact must still be valid JSON values, not stringified maps."
+}

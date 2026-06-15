@@ -1,0 +1,28 @@
+{
+  "$schema": "../../schemas/fixture.schema.json",
+  "id": "signed_receipt",
+  "type": "destructive_decl",
+  "provenance": "HKUDS/CLI-Anything#185",
+  "description": "A mutating command must emit an Ed25519-signed receipt to an append-only log describing exactly what it did.",
+  "synthetic": false,
+  "expect": {
+    "receipt_present": true,
+    "receipt_fields": [
+      "tool",
+      "command",
+      "args_digest",
+      "blast_radius",
+      "timestamp",
+      "actor",
+      "prev_hash",
+      "signature"
+    ],
+    "signature_verifies": true,
+    "blast_radius_in": [
+      "read-only",
+      "reversible",
+      "destructive"
+    ]
+  },
+  "notes": "Receipts chain via prev_hash (append-only). Signature over the canonical JSON of all non-signature fields."
+}

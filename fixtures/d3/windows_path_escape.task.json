@@ -1,0 +1,29 @@
+{
+  "$schema": "../../schemas/task.schema.json",
+  "id": "d3.path.windows_escape",
+  "dimension": "D3",
+  "title": "Windows path with backslashes and spaces survives round-trip",
+  "fixture": "fixtures/d3/windows_path_escape.fixture.json",
+  "call": {
+    "argv": [
+      "render",
+      "--output",
+      "C:\\\\Users\\\\Pat Lee\\\\out\\\\frame 01.png",
+      "--dry-run",
+      "--json"
+    ]
+  },
+  "assert": [
+    {
+      "kind": "stdout_json_path",
+      "path": "output",
+      "op": "equals",
+      "value": "C:\\\\Users\\\\Pat Lee\\\\out\\\\frame 01.png"
+    },
+    {
+      "kind": "no_injection_in_generated_artifact"
+    }
+  ],
+  "points": 5,
+  "provenance": "HKUDS/CLI-Anything#343"
+}
