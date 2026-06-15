@@ -119,7 +119,8 @@ def start_http_replay(fixture: dict) -> ReplaySession:
         do_DELETE = _serve
 
     server = HTTPServer(("127.0.0.1", 0), Handler)
-    host, port = server.server_address
+    addr = server.server_address
+    host, port = str(addr[0]), addr[1]
     thread = threading.Thread(target=server.serve_forever, daemon=True)
     thread.start()
     session.base_url = f"http://{host}:{port}"

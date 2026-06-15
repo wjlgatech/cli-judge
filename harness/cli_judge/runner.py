@@ -1,10 +1,11 @@
 """Runner: orchestrate adapter + replay + scorers -> report.
 
-Status: PARTIALLY WIRED (enough to self-test with the echo adapter). TODOs WB5.
+Status: WIRED (WB5). Drives each task through the replay engine, attaches the
+adapter's capability envelope and any compare_call output, scores, and applies
+the D4 safety blocker signal.
 """
 from __future__ import annotations
 import importlib.util
-from pathlib import Path
 from typing import Any
 
 from .adapter import Call, Adapter
@@ -16,9 +17,9 @@ from .report import build_report
 
 def load_adapter(path: str) -> Adapter:
     spec = importlib.util.spec_from_file_location("cli_judge_adapter", path)
+    assert spec is not None and spec.loader is not None, f"cannot load adapter from {path}"
     mod = importlib.util.module_from_spec(spec)
-    assert spec and spec.loader
-    spec.loader.exec_module(mod)  # type: ignore[union-attr]
+    spec.loader.exec_module(mod)
     if not hasattr(mod, "ADAPTER"):
         raise SystemExit(f"{path} must define a module-level ADAPTER instance")
     return mod.ADAPTER
