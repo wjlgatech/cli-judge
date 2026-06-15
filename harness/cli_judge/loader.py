@@ -1,10 +1,10 @@
 """Load suites, tasks, and fixtures, and validate them against schemas.
 
-Status: PARTIALLY WIRED. TODOs marked for WB1/WB8.
+Status: WIRED (WB1). Validates against JSON Schema and resolves suite YAML
+(with include composition) to ordered task paths.
 """
 from __future__ import annotations
 import json
-import os
 from pathlib import Path
 from typing import Any
 

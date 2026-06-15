@@ -8,7 +8,6 @@ This proves the pipeline wires up; it is NOT a real tool under test.
 Status: WIRED enough for 'cli-judge selftest'.
 """
 from __future__ import annotations
-import json
 import time
 import urllib.request
 from cli_judge.adapter import Adapter, Call, Result
