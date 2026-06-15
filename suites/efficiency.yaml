@@ -1,0 +1,5 @@
+# Efficiency suite: token & latency efficiency (D5).
+name: efficiency
+description: Tokens-per-task and local-path latency against per-archetype budgets.
+tasks:
+  - d5.compact.token_reduction
