@@ -5,13 +5,13 @@ It fabricates plausible 'correct' behavior for the seed D1/D2 tasks by reading
 the replay base_url, making the recorded request, and echoing a shaped result.
 This proves the pipeline wires up; it is NOT a real tool under test.
 
-Status: WIRED enough for 'atb selftest'.
+Status: WIRED enough for 'cli-judge selftest'.
 """
 from __future__ import annotations
 import json
 import time
 import urllib.request
-from atb.adapter import Adapter, Call, Result
+from cli_judge.adapter import Adapter, Call, Result
 
 
 class EchoAdapter:

@@ -1,5 +1,5 @@
-from atb.runner import run_suite
-from atb.loader import ROOT
+from cli_judge.runner import run_suite
+from cli_judge.loader import ROOT
 
 
 def test_selftest_runs():

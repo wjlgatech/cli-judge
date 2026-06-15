@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this is
 
-**AgentTool-Bench (ATB)** — a reality-grounded benchmark + verification harness that scores
+**CLI-Judge** — a reality-grounded benchmark + verification harness that scores
 agent-native CLIs, MCP servers, and software harnesses on *outcomes* (does the tool produce
 correct, safe, token-efficient results against real captured payloads?) rather than *structure*
 (does the source contain the right patterns?). The repo is shipped as a self-contained brief to
@@ -16,21 +16,21 @@ point allocations) → `AGENTS.md` (the build brief, work breakdown WB0–WB9, d
 
 ## Two non-negotiable invariants
 
-1. **ATB measures tools; it never generates them.** Reject any change that drifts toward building
+1. **CLI-Judge measures tools; it never generates them.** Reject any change that drifts toward building
    a CLI/MCP generator — the entire thesis is being the referee, not a third player. (`AGENTS.md`
    "Out of scope", `README.md` "Scope discipline".)
 2. **The Reality Principle (SPEC §2).** Every point a scorer awards must trace to (a) the tool's
    real stdout/stderr/exit-code from a subprocess run, (b) its behavior replayed against a
    *recorded real upstream payload*, or (c) an independently verifiable property of its declared
    capability envelope. **Never** award a point because "a string exists in source code" — that is
-   the structural-scorecard trap ATB exists to escape. A check passable by editing a comment is a
+   the structural-scorecard trap CLI-Judge exists to escape. A check passable by editing a comment is a
    fixture bug.
 
 ## Build status (important — most of the harness is stubbed)
 
-`atb validate` and `atb selftest` are wired and pass. The replay engine, the five scorers, the
+`cli-judge validate` and `cli-judge selftest` are wired and pass. The replay engine, the five scorers, the
 full runner, the capability-envelope/receipt verifier, and real adapters are **TODO** (marked
-inline with `Status:` headers and `WBn` tags). `atb selftest` currently prints `F (26.1)` because
+inline with `Status:` headers and `WBn` tags). `cli-judge selftest` currently prints `F (26.1)` because
 the scorers are stubs — that is expected until WB4 lands, not a regression. Each module's docstring
 states its status; grep `TODO (WB` to find open work.
 
@@ -43,19 +43,19 @@ the repo root via `ROOT = parents[2]`, so paths like `../fixtures` are relative 
 cd harness
 python3 -m venv .venv && source .venv/bin/activate
 pip install -e .            # hard dep: jsonschema only.  pip install -e .[dev] adds pytest/ruff/mypy
-                            # optional extras: .[receipts] (cryptography), .[yaml] (pyyaml)
+                            # optional extra: .[receipts] (cryptography, for D4 signed-receipt verification)
 
-atb validate ../fixtures   # validate every *.task.json / *.fixture.json against schemas/ (must exit 0)
-atb run --adapter examples/echo_adapter.py --suite core   # run a suite -> report.json + scorecard.md + Grade
-atb selftest               # echo adapter through the core suite; prints {grade, score}
+cli-judge validate ../fixtures   # validate every *.task.json / *.fixture.json against schemas/ (must exit 0)
+cli-judge run --adapter examples/echo_adapter.py --suite core   # run a suite -> report.json + scorecard.md + Grade
+cli-judge selftest               # echo adapter through the core suite; prints {grade, score}
 
 pytest -q                  # unit tests (tests/test_loader.py, tests/test_selftest.py)
 pytest -q tests/test_loader.py::<name>    # single test
 ```
 
-CI (`.github/workflows/atb.yml`) runs exactly: `atb validate ../fixtures`, `atb selftest`, `pytest -q`.
+CI (`.github/workflows/cli-judge.yml`) runs exactly: `cli-judge validate ../fixtures`, `cli-judge selftest`, `pytest -q`.
 
-`atb run` exit codes: `0` on grade A–D, `2` on F. The runner loads adapters by **executing the
+`cli-judge run` exit codes: `0` on grade A–D, `2` on F. The runner loads adapters by **executing the
 adapter file and reading a module-level `ADAPTER` instance** — every adapter must define one.
 
 ## Architecture
@@ -69,7 +69,7 @@ adapter ──> runner ──> replay engine ──> scorers ──> report
              drives adapter  offline           (pts,max,findings)  + "Grade: X (n/100)"
 ```
 
-- **Adapter** (`harness/atb/adapter.py`, real ones in `harness/atb/../adapters/`): the only
+- **Adapter** (`harness/cli_judge/adapter.py`, real ones in `harness/cli_judge/../adapters/`): the only
   tool-specific code. Implements `invoke(Call) -> Result` and optional `capability_envelope()`.
   `Call`/`Result`/`UpstreamObservation` are the frozen ABI dataclasses. `invoke` must **never raise
   on a non-zero tool exit** — capture it in `Result.exit_code`. When `Call.replay_base_url` is set,
@@ -109,6 +109,6 @@ C** regardless of total points (`report._letter`).
 ## Repo-wide workflow rule (from global policy)
 
 This repo keeps a `CHANGELOG.md` (Keep-a-Changelog). On any change to feature behavior, an API/CLI
-surface (`atb` subcommands, the adapter ABI, schemas), or a scoring rule, add an `## [Unreleased]`
+surface (`cli-judge` subcommands, the adapter ABI, schemas), or a scoring rule, add an `## [Unreleased]`
 changelog line (what + why) and sync the doc it touches — `SPEC.md`/`RUBRIC.md` for measurement
 changes, `AGENTS.md` for build-order/DoD changes, this file for architecture/command changes.

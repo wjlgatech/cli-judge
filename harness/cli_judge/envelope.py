@@ -1,4 +1,4 @@
-"""Capability envelope + Ed25519 signed receipts (the only crypto in ATB).
+"""Capability envelope + Ed25519 signed receipts (the only crypto in CLI-Judge).
 
 NO blockchain. A receipt is an append-only, hash-chained JSON-lines log,
 each line signed with Ed25519. Verification needs only a public key.

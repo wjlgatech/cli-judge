@@ -15,7 +15,7 @@ from .report import build_report
 
 
 def load_adapter(path: str) -> Adapter:
-    spec = importlib.util.spec_from_file_location("atb_adapter", path)
+    spec = importlib.util.spec_from_file_location("cli_judge_adapter", path)
     mod = importlib.util.module_from_spec(spec)
     assert spec and spec.loader
     spec.loader.exec_module(mod)  # type: ignore[union-attr]

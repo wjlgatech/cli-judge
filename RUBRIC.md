@@ -1,4 +1,4 @@
-# ATB Scoring Rubric v0.1
+# CLI-Judge Scoring Rubric v0.1
 
 Total: **100 points**, distributed across five dimensions. Each dimension lists scored checks with exact point values. A scorer awards points only on evidence per the Reality Principle (SPEC §2).
 

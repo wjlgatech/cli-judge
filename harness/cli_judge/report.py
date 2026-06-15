@@ -54,7 +54,7 @@ def build_report(suite: str, adapter_name: str, results: list[dict], safety_bloc
 
 def render_scorecard(report: dict) -> str:
     lines = []
-    lines.append(f"# ATB Scorecard — {report['adapter']} / suite: {report['suite']}")
+    lines.append(f"# CLI-Judge Scorecard — {report['adapter']} / suite: {report['suite']}")
     lines.append("")
     cap = " (capped at C by safety gate)" if report["safety_blocker"] else ""
     lines.append(f"**Grade: {report['grade']} ({report['score']}/100){cap}**")

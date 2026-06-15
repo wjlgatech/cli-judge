@@ -1,7 +1,7 @@
 [project]
-name = "atb"
+name = "cli-judge"
 version = "0.1.0"
-description = "AgentTool-Bench: reality-grounded benchmark + verification harness for agent-native CLIs/MCP servers/harnesses"
+description = "CLI-Judge: reality-grounded benchmark + verification harness for agent-native CLIs/MCP servers/harnesses"
 readme = "README.md"
 requires-python = ">=3.10"
 license = { text = "Apache-2.0" }
@@ -11,11 +11,10 @@ dependencies = [
 
 [project.optional-dependencies]
 receipts = ["cryptography>=41.0"]
-yaml = ["pyyaml>=6.0"]
 dev = ["pytest>=7.0", "ruff", "mypy"]
 
 [project.scripts]
-atb = "atb.cli:main"
+cli-judge = "cli_judge.cli:main"
 
 [build-system]
 requires = ["setuptools>=68"]
@@ -23,4 +22,4 @@ build-backend = "setuptools.build_meta"
 
 [tool.setuptools.packages.find]
 where = ["."]
-include = ["atb*"]
+include = ["cli_judge*"]

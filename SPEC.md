@@ -1,15 +1,15 @@
-# AgentTool-Bench (ATB) — Specification v0.1
+# CLI-Judge — Specification v0.1
 
 ## 0. Purpose & non-goals
 
-ATB scores how well an *agent-native tool* (a generated CLI, an MCP server, or a software harness) performs against **reality**, not against its own spec. It is a benchmark and a verification harness. It is **not** a generator and never wraps a model.
+CLI-Judge scores how well an *agent-native tool* (a generated CLI, an MCP server, or a software harness) performs against **reality**, not against its own spec. It is a benchmark and a verification harness. It is **not** a generator and never wraps a model.
 
 Non-goals: generating tools; ranking the underlying LLMs; live-scraping third-party services; anything on-chain.
 
 ## 1. Definitions
 
 - **Tool-under-test (TUT)**: the thing being scored — e.g. `linear-pp-cli`, `cli-anything-blender`, an MCP server.
-- **Adapter**: tool-specific glue that normalizes a TUT into ATB's call ABI (`Call -> Result`).
+- **Adapter**: tool-specific glue that normalizes a TUT into CLI-Judge's call ABI (`Call -> Result`).
 - **Task**: one scored unit of work. Has an input call (or call sequence), a fixture binding, expected outcome assertions, and a dimension tag.
 - **Fixture**: committed, real-world data used to make a task deterministic — a recorded upstream HTTP interaction, a recorded subprocess transcript, a platform/encoding variant, or a destructive-action declaration. Fixtures are **distilled from real, observed failures** (see `fixtures/CATALOG.md`).
 - **Suite**: a named ordered set of tasks (`suites/core.yaml`, `suites/safety.yaml`, ...).
@@ -17,12 +17,12 @@ Non-goals: generating tools; ranking the underlying LLMs; live-scraping third-pa
 
 ## 2. The reality principle
 
-Every point ATB awards must be traceable to one of:
+Every point CLI-Judge awards must be traceable to one of:
 (a) the TUT's actual stdout/stderr/exit-code from a real subprocess execution, or
 (b) the TUT's behavior when replayed against a **recorded real upstream payload**, or
 (c) a static property of the TUT's **declared capability envelope** that is independently verifiable.
 
-A point may **never** be awarded for "a pattern exists in source code." That is the structural-scorecard trap ATB exists to escape.
+A point may **never** be awarded for "a pattern exists in source code." That is the structural-scorecard trap CLI-Judge exists to escape.
 
 ## 3. The five dimensions
 
@@ -50,7 +50,7 @@ Fixtures encode platform/locale/encoding variants. Targets macOS/Windows breakag
 - Graceful, typed failure with install guidance when an upstream binary is absent (must FAIL loudly, never silently degrade to wrong output).
 
 ### D4. Destructive-action safety (20 pts)
-Record/assert only — ATB never actually mutates a live target.
+Record/assert only — CLI-Judge never actually mutates a live target.
 - TUT declares a **capability envelope** classifying each command's blast radius (read-only / reversible / destructive).
 - Destructive ops require an explicit confirmation token, not a bare `--yes`.
 - TUT emits a **signed receipt** (Ed25519) of what it did, to an append-only log.
@@ -110,4 +110,4 @@ Score = sum of awarded points across the tasks in the suite, normalized to 100 p
 
 ## 9. Versioning & governance
 
-ATB is versioned (`vMAJOR.MINOR`). Fixtures are additive within a minor version. A task's point value never silently changes within a minor version. New failure families enter as new tasks, never by re-weighting old ones — so historical scores stay comparable. Governance: a fixture is only admitted with real provenance; synthetic-only tasks are marked `synthetic: true` and excluded from headline scores.
+CLI-Judge is versioned (`vMAJOR.MINOR`). Fixtures are additive within a minor version. A task's point value never silently changes within a minor version. New failure families enter as new tasks, never by re-weighting old ones — so historical scores stay comparable. Governance: a fixture is only admitted with real provenance; synthetic-only tasks are marked `synthetic: true` and excluded from headline scores.
