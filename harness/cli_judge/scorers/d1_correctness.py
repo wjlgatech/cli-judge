@@ -1,21 +1,14 @@
 """D1 — Correctness-against-reality scorer.
 
-All-or-nothing per task by default: award task['points'] if every assert passes.
-TODO (WB4): support partial credit per RUBRIC where a task has weighted sub-checks.
+Replays the TUT against a recorded real upstream payload and asserts the typed
+output and the REAL upstream request are correct (pagination params, no JWT
+false-positive, no raw-map leak, multi-value query, serialization, base_url).
+All-or-nothing per task (see scorers package docstring / plan KTD4).
 """
 from __future__ import annotations
-from . import register, ScoreResult, Finding
-from ._assertlib import run_assert
+from . import register, score_all_or_nothing
 
 
 @register("D1")
-def score(task, fixture, result) -> ScoreResult:
-    max_p = float(task["points"])
-    findings = []
-    ok_all = True
-    for a in task["assert"]:
-        ok, ev = run_assert(result, a)
-        if not ok:
-            ok_all = False
-            findings.append(Finding("friction", "D1_ASSERT", f"{a['kind']} failed", ev))
-    return ScoreResult(points=max_p if ok_all else 0.0, max_points=max_p, findings=findings)
+def score(task, fixture, result):
+    return score_all_or_nothing(task, result, "D1")
