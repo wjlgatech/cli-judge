@@ -35,16 +35,16 @@ adapter (per tool-under-test)  ->  CLI-Judge runner  ->  replay engine  ->  scor
 
 ## Work Breakdown (build in this order)
 
-- [ ] **WB0 — Bootstrap.** Create the Python package per `harness/` skeleton. `pip install -e harness` must succeed and `cli-judge --help` must run. (Skeleton provided; wire up entrypoints.)
-- [ ] **WB1 — Schema validation.** Implement `cli-judge validate <dir>`: load every `*.task.json` and `*.fixture.json`, validate against `schemas/`. Provided fixtures must pass.
-- [ ] **WB2 — Adapter ABI.** Finalize `harness/cli_judge/adapter.py`: the `Call`, `Result` dataclasses and the `Adapter` protocol. Implement `examples/echo_adapter.py` (a trivial adapter that lets the harness self-test end-to-end without any real tool).
-- [ ] **WB3 — Replay engine.** Implement `harness/cli_judge/replay.py`: given a fixture with a recorded upstream interaction, expose it to the adapter (env var pointing at a local replay socket/file, or injected response). Deterministic, no network.
-- [ ] **WB4 — Scorers.** Implement the five scorers in `harness/cli_judge/scorers/`. Each consumes (task, fixture, result) and emits `(points, max, findings)`. Follow RUBRIC point tables exactly.
-- [ ] **WB5 — Runner + report.** Implement `cli-judge run --adapter <file> --suite <name>`: orchestrate WB2–WB4, write `report.json` + `scorecard.md`, print `Grade: <A-F> (<score>/100)`.
-- [ ] **WB6 — Real adapters.** Implement `adapters/pp_cli_adapter.py` (wraps a Printing Press `<api>-pp-cli` binary) and `adapters/cli_anything_adapter.py` (wraps a `cli-anything-<software>` command). These let CLI-Judge score the two real ecosystems.
-- [ ] **WB7 — Capability envelope + receipts.** Implement `harness/cli_judge/envelope.py`: parse/emit the capability envelope (schemas/capability_envelope.schema.json) and verify signed receipts (Ed25519 via `cryptography` — optional extra). This powers the Destructive-action safety scorer.
-- [ ] **WB8 — Fixture expansion.** Convert every entry in `fixtures/CATALOG.md` into a concrete `*.fixture.json` + `*.task.json` pair following `templates/`. The provided ones are seeds; expand to full coverage.
-- [ ] **WB9 — CI + golden report.** Add a GitHub Actions workflow that runs `cli-judge validate` and `cli-judge run --adapter examples/echo_adapter.py` on push, and snapshots a golden `scorecard.md`.
+- [x] **WB0 — Bootstrap.** Create the Python package per `harness/` skeleton. `pip install -e harness` must succeed and `cli-judge --help` must run. (Skeleton provided; wire up entrypoints.)
+- [x] **WB1 — Schema validation.** Implement `cli-judge validate <dir>`: load every `*.task.json` and `*.fixture.json`, validate against `schemas/`. Provided fixtures must pass.
+- [x] **WB2 — Adapter ABI.** Finalize `harness/cli_judge/adapter.py`: the `Call`, `Result` dataclasses and the `Adapter` protocol. Implement `examples/echo_adapter.py` (a trivial adapter that lets the harness self-test end-to-end without any real tool).
+- [x] **WB3 — Replay engine.** Implement `harness/cli_judge/replay.py`: given a fixture with a recorded upstream interaction, expose it to the adapter (env var pointing at a local replay socket/file, or injected response). Deterministic, no network.
+- [x] **WB4 — Scorers.** Implement the five scorers in `harness/cli_judge/scorers/`. Each consumes (task, fixture, result) and emits `(points, max, findings)`. Follow RUBRIC point tables exactly.
+- [x] **WB5 — Runner + report.** Implement `cli-judge run --adapter <file> --suite <name>`: orchestrate WB2–WB4, write `report.json` + `scorecard.md`, print `Grade: <A-F> (<score>/100)`.
+- [x] **WB6 — Real adapters.** Implement `adapters/pp_cli_adapter.py` (wraps a Printing Press `<api>-pp-cli` binary) and `adapters/cli_anything_adapter.py` (wraps a `cli-anything-<software>` command). These let CLI-Judge score the two real ecosystems.
+- [x] **WB7 — Capability envelope + receipts.** Implement `harness/cli_judge/envelope.py`: parse/emit the capability envelope (schemas/capability_envelope.schema.json) and verify signed receipts (Ed25519 via `cryptography` — optional extra). This powers the Destructive-action safety scorer.
+- [x] **WB8 — Fixture expansion.** Convert every entry in `fixtures/CATALOG.md` into a concrete `*.fixture.json` + `*.task.json` pair following `templates/`. The provided ones are seeds; expand to full coverage.
+- [x] **WB9 — CI + golden report.** Add a GitHub Actions workflow that runs `cli-judge validate` and `cli-judge run --adapter examples/echo_adapter.py` on push, and snapshots a golden `scorecard.md`.
 
 ## Definition of Done
 

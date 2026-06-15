@@ -26,13 +26,17 @@ point allocations) → `AGENTS.md` (the build brief, work breakdown WB0–WB9, d
    the structural-scorecard trap CLI-Judge exists to escape. A check passable by editing a comment is a
    fixture bug.
 
-## Build status (important — most of the harness is stubbed)
+## Build status — harness complete
 
-`cli-judge validate` and `cli-judge selftest` are wired and pass. The replay engine, the five scorers, the
-full runner, the capability-envelope/receipt verifier, and real adapters are **TODO** (marked
-inline with `Status:` headers and `WBn` tags). `cli-judge selftest` currently prints `F (26.1)` because
-the scorers are stubs — that is expected until WB4 lands, not a regression. Each module's docstring
-states its status; grep `TODO (WB` to find open work.
+The full pipeline is implemented to the `AGENTS.md` Definition of Done: replay engine, the five
+scorers + assertion library, Ed25519 receipt verification (with graceful crypto-absent
+degradation), the D4 hard gate, suite YAML resolution, runner, and report all work, plus the two
+real adapters. `cli-judge run --suite full` produces a real, deterministic grade; `cli-judge
+selftest` runs the echo mock through `core` (the mock scores only where its toy single-request
+behavior is genuinely correct — D1 pagination + several D2 checks — by design). The golden core
+scorecard lives at `harness/tests/golden/core_scorecard.md` (regenerate intentionally with
+`CLI_JUDGE_REGEN_GOLDEN=1 pytest tests/test_golden.py`). Remaining expansion (more fixtures toward
+full 100-point rubric coverage) is additive per `fixtures/CATALOG.md`.
 
 ## Commands
 
@@ -97,9 +101,9 @@ C** regardless of total points (`report._letter`).
   are distilled from real observed failures across the two CLI-factory issue trackers; the backlog
   to convert is `fixtures/CATALOG.md`. Synthetic-only tasks must be marked `synthetic: true` and are
   excluded from headline scores.
-- **Suites** (`suites/*.yaml`): currently the loader maps a suite *name* → dimension-prefix filter
-  over task ids (`load_suite`'s `prefix_map`); it does **not yet parse the YAML** (WB1 TODO). The
-  YAML files document intent; changing a suite's membership means editing both until the parser lands.
+- **Suites** (`suites/*.yaml`): `load_suite` parses these via a stdlib YAML-subset parser and
+  resolves `include:` composition (`full` pulls in core/safety/portability/efficiency). Edit the
+  YAML to change a suite's membership; every task id must resolve to a committed `*.task.json`.
 - **Fixtures are data, never code — never `eval` fixture content.** All randomness seeded, all
   fixture timestamps frozen, so reports are deterministic for a given (suite, adapter, fixture-set).
 - **Findings are structured**: `{severity: blocker|friction|note, code, message, evidence}`.
