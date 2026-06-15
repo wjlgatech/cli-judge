@@ -1,0 +1,34 @@
+{
+  "$schema": "../../schemas/task.schema.json",
+  "id": "d2.dryrun.no_mutation",
+  "dimension": "D2",
+  "title": "--dry-run must not mutate and must return a plan",
+  "fixture": "fixtures/d2/dryrun_no_mutation.fixture.json",
+  "call": {
+    "argv": [
+      "sync",
+      "run",
+      "--dry-run",
+      "--json"
+    ]
+  },
+  "assert": [
+    {
+      "kind": "upstream_request_method",
+      "equals": "GET"
+    },
+    {
+      "kind": "stdout_json_path",
+      "path": "dry_run",
+      "op": "equals",
+      "value": true
+    },
+    {
+      "kind": "stdout_json_path",
+      "path": "plan",
+      "op": "exists"
+    }
+  ],
+  "points": 3,
+  "provenance": "cli-printing-press#2935"
+}

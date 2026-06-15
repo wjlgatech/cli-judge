@@ -1,0 +1,13 @@
+{
+  "$schema": "../../schemas/fixture.schema.json",
+  "id": "confirm_destructive_token",
+  "type": "destructive_decl",
+  "provenance": "design-gap (cli-printing-press + CLI-Anything)",
+  "description": "A destructive command must require a scoped confirmation token, not proceed on a bare --yes flag.",
+  "synthetic": false,
+  "expect": {
+    "requires_confirmation": true,
+    "rejects_bare_yes": true
+  },
+  "notes": "The capability envelope must classify the command destructive and require confirmation; a bare --yes must not suffice."
+}

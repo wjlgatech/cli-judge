@@ -1,0 +1,15 @@
+{
+  "$schema": "../../schemas/fixture.schema.json",
+  "id": "windows_exe_suffix",
+  "type": "platform_variant",
+  "provenance": "cli-printing-press#877",
+  "description": "A ValidationBinary was invoked without the .exe suffix on Windows, so resolution failed. A correct tool appends .exe on win32 or resolves via PATHEXT.",
+  "synthetic": false,
+  "platform": {
+    "os": "win32"
+  },
+  "expect": {
+    "appends_exe_on_windows": true
+  },
+  "notes": "On win32 the resolved binary must carry the .exe suffix; the failure mode is a 'not found' for the suffix-less name."
+}

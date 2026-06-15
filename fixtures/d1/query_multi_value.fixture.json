@@ -1,0 +1,30 @@
+{
+  "$schema": "../../schemas/fixture.schema.json",
+  "id": "query_multi_value",
+  "type": "http_replay",
+  "provenance": "cli-printing-press#2965",
+  "description": "Repeated/array query params (--label bug --label urgent) must all reach upstream; the MCP envelope dropped multi-value params.",
+  "synthetic": false,
+  "match": {
+    "method": "GET",
+    "path": "/v1/issues"
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "body": {
+      "items": [
+        {
+          "id": "i1",
+          "labels": [
+            "bug",
+            "urgent"
+          ]
+        }
+      ]
+    }
+  },
+  "notes": "A correct tool sends label=bug&label=urgent, not a single dropped value."
+}
