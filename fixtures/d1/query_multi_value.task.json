@@ -1,0 +1,33 @@
+{
+  "$schema": "../../schemas/task.schema.json",
+  "id": "d1.query.multi_value_preserved",
+  "dimension": "D1",
+  "title": "Multi-value query params must all reach upstream",
+  "fixture": "fixtures/d1/query_multi_value.fixture.json",
+  "call": {
+    "argv": [
+      "issues",
+      "list",
+      "--label",
+      "bug",
+      "--label",
+      "urgent",
+      "--json"
+    ]
+  },
+  "assert": [
+    {
+      "kind": "upstream_request_query_multi",
+      "param": "label",
+      "values": [
+        "bug",
+        "urgent"
+      ]
+    },
+    {
+      "kind": "stdout_is_json"
+    }
+  ],
+  "points": 4,
+  "provenance": "cli-printing-press#2965"
+}

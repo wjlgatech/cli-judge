@@ -1,0 +1,29 @@
+{
+  "$schema": "../../schemas/task.schema.json",
+  "id": "d2.json.empty_result",
+  "dimension": "D2",
+  "title": "Empty result must still be valid JSON",
+  "fixture": "fixtures/d2/json_empty_result.fixture.json",
+  "call": {
+    "argv": [
+      "fs",
+      "ls",
+      "--json"
+    ]
+  },
+  "assert": [
+    {
+      "kind": "stdout_is_json"
+    },
+    {
+      "kind": "stdout_json_path",
+      "path": "items",
+      "op": "exists"
+    },
+    {
+      "kind": "no_log_on_stdout"
+    }
+  ],
+  "points": 5,
+  "provenance": "HKUDS/CLI-Anything#217"
+}

@@ -252,6 +252,15 @@ def upstream_request_path(result, a) -> tuple[bool, str]:
     return (obs.path == a["equals"], f"path={obs.path!r} expected {a['equals']!r}")
 
 
+def upstream_request_method(result, a) -> tuple[bool, str]:
+    """The upstream request used the expected HTTP method — e.g. --dry-run must
+    not issue a mutating POST/PUT/PATCH/DELETE."""
+    obs = result.upstream
+    if obs is None:
+        return (False, "no upstream observation")
+    return (obs.method.upper() == a["equals"].upper(), f"method={obs.method} expected {a['equals']}")
+
+
 def upstream_request_header(result, a) -> tuple[bool, str]:
     obs = result.upstream
     if obs is None:
@@ -348,6 +357,7 @@ DISPATCH = {
     "upstream_request_query_absent": upstream_request_query_absent,
     "upstream_request_query_multi": upstream_request_query_multi,
     "upstream_request_path": upstream_request_path,
+    "upstream_request_method": upstream_request_method,
     "upstream_request_header": upstream_request_header,
     "receipt_emitted": receipt_emitted,
     "receipt_field_present": receipt_field_present,

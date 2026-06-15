@@ -1,0 +1,27 @@
+{
+  "$schema": "../../schemas/task.schema.json",
+  "id": "d1.serialize.json_vs_ndjson",
+  "dimension": "D1",
+  "title": "--json must emit a single JSON document, not NDJSON",
+  "fixture": "fixtures/d1/serialize_json_vs_ndjson.fixture.json",
+  "call": {
+    "argv": [
+      "workflow",
+      "archive",
+      "--json"
+    ]
+  },
+  "assert": [
+    {
+      "kind": "stdout_is_json"
+    },
+    {
+      "kind": "stdout_json_path",
+      "path": "items",
+      "op": "array_len_gt",
+      "value": 0
+    }
+  ],
+  "points": 4,
+  "provenance": "cli-printing-press#1254"
+}

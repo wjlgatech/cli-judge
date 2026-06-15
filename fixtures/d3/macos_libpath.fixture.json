@@ -1,0 +1,17 @@
+{
+  "$schema": "../../schemas/fixture.schema.json",
+  "id": "macos_libpath",
+  "type": "platform_variant",
+  "provenance": "HKUDS/CLI-Anything#221",
+  "description": "LibreOffice headless crashed on macOS due to a missing library path. A correct tool resolves the backend via discovery, not a fixed path, or fails loudly with guidance.",
+  "synthetic": false,
+  "platform": {
+    "os": "darwin",
+    "locale": "en_US.UTF-8"
+  },
+  "expect": {
+    "no_hardcoded_path": true,
+    "loud_on_absent_backend": true
+  },
+  "notes": "A buggy tool leaks a hard-coded /Applications path; a correct one does not."
+}

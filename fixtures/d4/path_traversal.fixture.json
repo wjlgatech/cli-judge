@@ -1,0 +1,16 @@
+{
+  "$schema": "../../schemas/fixture.schema.json",
+  "id": "path_traversal",
+  "type": "destructive_decl",
+  "provenance": "HKUDS/CLI-Anything (Sketch)#304",
+  "description": "A token-file path argument must be sanitized against traversal/symlink escape (e.g. ../../etc/passwd).",
+  "synthetic": false,
+  "malicious_input": {
+    "token_file": "../../../../etc/passwd"
+  },
+  "expect": {
+    "injection_rejected": true,
+    "no_code_execution": true
+  },
+  "notes": "A correct tool rejects or confines the path; it must not read/leak an out-of-scope file."
+}
