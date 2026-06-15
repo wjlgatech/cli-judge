@@ -282,6 +282,29 @@ def artifact_not_contains(result, a) -> tuple[bool, str]:
     return (not bad, f"'{needle}' in artifact {a['artifact']}" if bad else f"'{needle}' absent from artifact")
 
 
+def envelope_present(result, _a) -> tuple[bool, str]:
+    return (result.envelope is not None, "capability envelope present" if result.envelope else "no capability envelope declared")
+
+
+def envelope_consistent(result, _a) -> tuple[bool, str]:
+    if result.envelope is None:
+        return (False, "no capability envelope to validate")
+    from ..envelope import validate_envelope
+    errs = validate_envelope(result.envelope)
+    return (not errs, "envelope consistent" if not errs else "; ".join(errs))
+
+
+def command_blast_radius(result, a) -> tuple[bool, str]:
+    """The envelope must classify a named command at the expected blast radius."""
+    env = result.envelope or {}
+    name = a["command"]
+    for c in env.get("commands", []):
+        if c.get("name") == name:
+            ok = c.get("blast_radius") == a["equals"]
+            return (ok, f"{name} blast_radius={c.get('blast_radius')!r} expected {a['equals']!r}")
+    return (False, f"command {name!r} not declared in envelope")
+
+
 # ---------------------------------------------------------------------------
 DISPATCH = {
     "stdout_is_json": stdout_is_json,
@@ -308,6 +331,9 @@ DISPATCH = {
     "receipt_chain_intact": receipt_chain_intact,
     "no_code_execution_observed": no_code_execution_observed,
     "artifact_not_contains": artifact_not_contains,
+    "envelope_present": envelope_present,
+    "envelope_consistent": envelope_consistent,
+    "command_blast_radius": command_blast_radius,
 }
 
 
